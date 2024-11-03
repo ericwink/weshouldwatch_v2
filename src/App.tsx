@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button } from "./components/ui/button";
 import { ModeToggle } from "./components/ModeToggle";
+import { trpc } from "./client";
 
 function App() {
   const [count, setCount] = useState(0);
+  const { data, isLoading } = trpc.greeting.useQuery();
 
   return (
     <>
@@ -13,13 +15,9 @@ function App() {
         <Button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        {isLoading ?? "data loading...."}
+        {data ?? data}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
